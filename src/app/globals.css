@@ -1,26 +1,138 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+
+  /* Precise Color Tokens mapped directly from instructions */
+  --color-ivory: #F7F5F0;
+  --color-ivory-dark: #EFEFEF;
+  --color-gold: #C9A24C;
+  --color-charcoal: #121212;
+  --color-muted: rgba(18, 18, 18, 0.60);
+  --color-hairDark: #0F0F10;
+  --color-success: #2F8F6B;
+
+  --color-glass: rgba(255, 255, 255, 0.55);
+  --color-glass-dark: rgba(20, 20, 20, 0.4);
+  --color-glass-border: rgba(255, 255, 255, 0.45);
+
+  --shadow-premium: 0 20px 60px rgba(0, 0, 0, 0.08);
+  --shadow-micro: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --bg: var(--color-ivory);
+  --text: var(--color-charcoal);
 }
 
 @media (prefers-color-scheme: dark) {
+
+  /* Site remains mostly light-themed by default for luxury feel, but handle variables gracefully */
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #111111;
+    --text: #f3f4f6;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Base styling */
+@layer base {
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    /* Noise texture overlay configuration */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    background-blend-mode: multiply;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  /* Responsive typography according to guidelines */
+  h1 {
+    font-size: clamp(32px, 5vw, 56px);
+  }
+
+  h2 {
+    font-size: clamp(28px, 4vw, 36px);
+  }
+
+  p {
+    font-size: clamp(16px, 1.2vw, 18px);
+    color: var(--color-muted);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: var(--shadow-premium);
+  }
+
+  .glass-panel-dark {
+    background-color: rgba(15, 15, 16, 0.8);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-premium);
+  }
+
+  .glass-button {
+    background-color: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+  }
+
+  /* Thin subtle dividers */
+  .hairline-divider {
+    height: 1px;
+    width: 100%;
+    background-color: rgba(18, 18, 18, 0.1);
+  }
+
+  .hairline-divider-gold {
+    height: 1px;
+    width: 100%;
+    background-color: rgba(201, 162, 76, 0.5);
+  }
+
+  /* "Apple Dot Motif" */
+  .bg-dot-pattern {
+    background-image: radial-gradient(var(--color-muted) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.1;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Fallback for disabled motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
